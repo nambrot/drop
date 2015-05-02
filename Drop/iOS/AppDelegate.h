@@ -9,8 +9,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class LocationTracker;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
+@property LocationTracker * locationTracker;
+@property (nonatomic) NSTimer* locationUpdateTimer;
+
+@property (nonatomic, strong) NSString* deviceID;
 
 @end

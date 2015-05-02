@@ -5,8 +5,7 @@
 <table>
   <thead>
     <tr>
-      <th>Lat</th>
-      <th>Lng</th>
+      <th>Location</th>
       <th>User</th>
       <th colspan="3"></th>
     </tr>
@@ -15,8 +14,7 @@
   <tbody>
     <% @locations.each do |location| %>
       <tr>
-        <td><%= location.lat %></td>
-        <td><%= location.lng %></td>
+        <td><%= location.lonlat %></td>
         <td><%= location.user_id %></td>
         <td><%= link_to 'Show', location %></td>
         <td><%= link_to 'Edit', edit_location_path(location) %></td>

@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
   before_action :set_location, only: [:show, :edit, :update, :destroy]
-
+  before_filter :authenticate_user!, only: [:import_locations, :import_kml]
   respond_to :html, :json
 
   def index
@@ -34,6 +34,17 @@ class LocationsController < ApplicationController
   def destroy
     @location.destroy
     respond_with(@location)
+  end
+
+  def import_locations
+  end
+
+  def import_kml
+    kml_matches = params[:kml][:file].tempfile.read.scan /<when>([\d+-T]+)<\/when>\s<gx:coord>([-\d.]+) ([-\d.]+)/
+    current_user.locations.create kml_matches.map {|line| { created_at: DateTime.parse(line[0]), lat: line[2].to_f, lng: line[1].to_f } }
+
+    redirect_to locations_path
+
   end
 
   private

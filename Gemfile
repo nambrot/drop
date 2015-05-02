@@ -41,5 +41,13 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'pry-debugger'
 end
 
+gem 'devise'
+gem 'simple_form'
+gem 'foundation-rails'
+gem 'responders'
+gem 'activerecord-postgis-adapter', '3.0.0.beta4'
+gem 'rails_12factor'
+gem 'georuby'

@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  resources :locations
-
   get 'import_locations' => 'locations#import_locations'
   post 'import_kml' => 'locations#import_kml'
   get 'foursquare' => 'locations#foursquare'

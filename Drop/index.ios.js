@@ -43,8 +43,41 @@ var Drop = React.createClass({
   }
 });
 
+/*
+category: {
+  name: "Home"
+  time_spent: 1323423
+}
+
+event: {
+  name: "Wildcard Inc.",
+  startTime: 13243234,
+  duration: 23423432,
+  category: "Work"
+}
+*/
+
 var MainScreen = React.createClass({
   getInitialState() {
+    var categories = [
+      {
+        name: "Home"
+        time_spent: 600
+      },
+      {
+        name: "Work"
+        time_spent: 600
+      },
+      {
+        name: "Gym"
+        time_spent: 100
+      },
+      {
+        name: "Bars"
+        time_spent: 100
+      },
+    ]
+
     return {timespan: 'Today',
       colors: ["#A10840", '#F03316', '#A19E08', '#E0C33F', '#1D8A7F'],
       pieData: [52,15,20,80,40],

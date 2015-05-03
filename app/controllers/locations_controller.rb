@@ -47,6 +47,19 @@ class LocationsController < ApplicationController
 
   end
 
+  def foursquare
+    client = Foursquare2::Client.new(:client_id => Rails.application.secrets.foursquare_id, 
+        :client_secret => Rails.application.secrets.foursquare_secret,
+        :api_version => 20150501)
+
+    #client.search_venues(:ll => event.lat + ',' + event.long, :intent => match)
+
+    venues = client.search_venues(:ll => '40.719009,-73.996995', :intent => 'checkin')
+    event.venue_id = venues.venues[0].id
+    event.category = venues.venues[0].categories[0].name
+    byebug
+  end
+
   private
     def set_location
       @location = Location.find(params[:id])

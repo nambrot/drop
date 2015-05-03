@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get 'import_locations' => 'locations#import_locations'
   post 'import_kml' => 'locations#import_kml'
+  get 'foursquare' => 'locations#foursquare'
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.

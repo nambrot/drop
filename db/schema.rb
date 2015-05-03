@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20150502192015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "locations", force: :cascade do |t|
     t.float    "lat"

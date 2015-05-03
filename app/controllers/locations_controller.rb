@@ -22,6 +22,7 @@ class LocationsController < ApplicationController
 
   def create
     @location = Location.new(location_params)
+    @location.lonlat = "POINT( #{params[:location][:lng]} #{params[:location][:lat]})"
     @location.save
     respond_with(@location)
   end
@@ -41,7 +42,8 @@ class LocationsController < ApplicationController
 
   def import_kml
     kml_matches = params[:kml][:file].tempfile.read.scan /<when>([\d+-T]+)<\/when>\s<gx:coord>([-\d.]+) ([-\d.]+)/
-    current_user.locations.create kml_matches.map {|line| { created_at: DateTime.parse(line[0]), lat: line[2].to_f, lng: line[1].to_f } }
+    # binding.pry
+    current_user.locations.create kml_matches.map {|line| { created_at: DateTime.parse(line[0]), lonlat: "POINT(#{line[1]} #{line[2]})" } }
 
     redirect_to locations_path
 
@@ -66,6 +68,6 @@ class LocationsController < ApplicationController
     end
 
     def location_params
-      params.require(:location).permit(:lat, :lng, :user_id)
+      params.require(:location).permit(:user_id)
     end
 end

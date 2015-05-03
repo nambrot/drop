@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
 
     address, resp_lat, resp_lng = self.class.reverse_geocode(lat, lng)
 
+    return unless address
+
     if state[:last_location]
       if state[:last_location][:address] == address
         state[:occurence] += 1
@@ -43,7 +45,11 @@ class User < ActiveRecord::Base
   def self.reverse_geocode(lat, lng)
     response = JSON.parse(HTTParty.get("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=#{lng},#{lat}&distance=50?token=1Ukoeka9lU2yjIYVlZls1kHCubE03ovaVAqBk5EIMyzf8ayXaiaqR0nQ3g9hyWx9N5Y7fxkO2-cPfqSFYxBJWY87uvtcl5Z8-5vqp2SDW6BbTFYLEERSbX9A404vfH52cQmvxN8dLNT40IGtbu2m-A..&outSR=&f=pjson"))
 
-    return response['address']['Address'], response['location']['y'], response['location']['x']
+    if response['error']
+      return nil, nil, nil
+    else
+      return response['address']['Address'], response['location']['y'], response['location']['x']
+    end
   end
 
   def create_event

@@ -53,7 +53,15 @@ class User < ActiveRecord::Base
   end
 
   def create_event
-    events.create lat: state[:last_location][:lat], lng: state[:last_location][:lng], entered_at: state[:time_of_first_occurence], time_spent: ((state[:time_of_last_occurence] - state[:time_of_first_occurence]) / 1.minute).round
+    client = Foursquare2::Client.new(:client_id => Rails.application.secrets.foursquare_id, :client_secret => Rails.application.secrets.foursquare_secret, :api_version => 20150501)
+    data = client.search_venues(:ll => "#{state[:last_location][:lat]},#{state[:last_location][:lng]}", :intent => 'checkin')
+
+    if data and data.venues and data.venues[0]
+      venue_name = data.venues[0].name
+      venue_category = data.venues[0].categories[0].name
+    end
+
+    events.create lat: state[:last_location][:lat], lng: state[:last_location][:lng], entered_at: state[:time_of_first_occurence], time_spent: ((state[:time_of_last_occurence] - state[:time_of_first_occurence]) / 1.minute).round, name: venue_name || state[:last_location][:address], category: venue_category || "Unknown"
   end
 
 end
